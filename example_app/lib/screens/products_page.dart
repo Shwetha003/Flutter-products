@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
-//import '../models/product.dart';
+import '../models/product.dart';
 import 'cart_page.dart';
 import 'package:go_router/go_router.dart';
 import '../models/auth_model.dart';
@@ -39,7 +39,7 @@ class _ProductsPageState extends State<ProductsPage> {
       appBar: AppBar(
         title: const Text('Products'),
         actions: [
-          // 2) Your existing cart icon + badge
+          // cart
           Stack(
             alignment: Alignment.center,
             children: [
@@ -66,7 +66,7 @@ class _ProductsPageState extends State<ProductsPage> {
             ],
           ),
 
-          // Popup menu for logout
+          // menu for logout
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
@@ -97,7 +97,7 @@ class _ProductsPageState extends State<ProductsPage> {
               itemBuilder: (context, index) {
                 final product = products[index];
                 return ListTile(
-                  title: Text(product.title),
+                  title: Text(product.name),
                   subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.add),

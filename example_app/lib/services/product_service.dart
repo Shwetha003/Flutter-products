@@ -1,4 +1,6 @@
 import 'dart:convert';
+import '../models/product.dart';
+
 import 'package:http/http.dart' as http;
 
 class ProductService {
@@ -15,7 +17,7 @@ class ProductService {
   }
 }
 
-class Product {
+/*class Product {
   final int id;
   final String title;
   final double price;
@@ -30,3 +32,4 @@ class Product {
     );
   }
 }
+*/

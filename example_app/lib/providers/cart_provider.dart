@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import '../models/product.dart';
 
 class CartProvider extends ChangeNotifier {
-  final Map<String, int> _items = {};
+  final Map<Product, int> _items = {};
 
-  Map<String, int> get items => _items;
+  Map<Product, int> get items => _items;
 
   void addItem(Product product) {
     //_items.update(product.id, (existing) => existing + 1, ifAbsent: () => 1);
-    _items.add(product);
+    _items.update(product, (existingQty) => existingQty + 1, ifAbsent: () => 1);
     notifyListeners();
   }
 
@@ -18,7 +18,7 @@ class CartProvider extends ChangeNotifier {
     if (newQty <= 0) {
       _items.remove(product.id);
     } else {
-      _items[product.id] = newQty;
+      _items[product] = newQty;
     }
     notifyListeners();
   }
