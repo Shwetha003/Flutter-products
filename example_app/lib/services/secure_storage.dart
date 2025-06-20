@@ -48,16 +48,20 @@ class SecureStorage {
     final credentials = await getCredentialsList();
     final hashedPassword = _hashPassword(password);
 
-    final user = credentials.firstWhere(
-      (entry) => entry['email'] == email,
-      orElse: () => {},
-    );
+    final user = credentials
+        .where((entry) => entry['email'] == email)
+        .toList(); //->to find user by email
 
     if (user.isEmpty) {
+      //email not registered
       return false;
     }
 
-    return user['password'] == hashedPassword;
+    if (user.first['password'] == hashedPassword) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Optional: clear all

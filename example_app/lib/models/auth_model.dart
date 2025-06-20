@@ -2,7 +2,7 @@ import 'package:example_app/services/secure_storage.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthModel extends ChangeNotifier {
-  //final FlutterSecureStorage _storage = const FlutterSecureStorage();  -->we are no longer directly talking to the storage, now we call from the secure storage file
+  //final FlutterSecureStorage _storage = const FlutterSecureStorage();  we are no longer directly talking to the storage, now we call from the secure storage file
   bool _loggedIn = false;
   bool _initialized = false;
   String? _currentUserEmail;
