@@ -1,73 +1,54 @@
+import 'package:example_app/services/secure_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthModel extends ChangeNotifier {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  //final FlutterSecureStorage _storage = const FlutterSecureStorage();  -->we are no longer directly talking to the storage, now we call from the secure storage file
   bool _loggedIn = false;
   bool _initialized = false;
+  String? _currentUserEmail;
 
   bool get loggedIn => _loggedIn;
   bool get initialized => _initialized;
+  String? get currentUserEmail => _currentUserEmail;
 
   AuthModel() {
-    _loadFromStorage();
+    _initialize();
   }
 
-  Future<void> _loadFromStorage() async {
-    final value = await _storage.read(key: 'loggedIn');
-    _loggedIn = value == 'true';
+  //initialize when app starts
+  Future<void> _initialize() async {
+    _loggedIn = false;
     _initialized = true;
     notifyListeners();
   }
 
+  //register user
+  Future<bool> registerWithEmail(String email, String password) async {
+    try {
+      await SecureStorage.addCredential(email: email, password: password);
+      return true;
+    } catch (e) {
+      return false; //when email already exists
+    }
+  }
+
+  //login user
   Future<bool> loginWithEmail(String email, String password) async {
-    // read stored credentials
-    final storedEmail = await _storage.read(key: 'registeredEmail');
-    final storedPass = await _storage.read(key: 'registeredPassword');
-    if (storedEmail == email && storedPass == password) {
+    final success = await SecureStorage.checkLogin(
+      email: email,
+      password: password,
+    );
+    if (success) {
       _loggedIn = true;
-      await _storage.write(key: 'loggedIn', value: 'true');
+      _currentUserEmail = email;
       notifyListeners();
-      return true;
     }
-    return false;
+    return success;
   }
-
-  Future<void> registerWithEmail(String email, String password) async {
-    // store credentials
-    await _storage.write(key: 'registeredEmail', value: email);
-    await _storage.write(key: 'registeredPassword', value: password);
-  }
-  /*Future<bool> loginWithEmail(String email, String password) async {
-    // Dummy check: only one registered user
-    const registeredEmail = 'user@example.com';
-    const registeredPassword = 'password123';
-
-    if (email == registeredEmail && password == registeredPassword) {
-      _loggedIn = true;
-      await _storage.write(key: 'loggedIn', value: 'true');
-      notifyListeners();
-      return true;
-    }
-    return false;
-  } */
 
   Future<void> logout() async {
     _loggedIn = false;
-    await _storage.delete(key: 'loggedIn');
+    _currentUserEmail = null;
     notifyListeners();
   }
 }
-
-  /*
-  void login() {
-    _loggedIn = true;
-    notifyListeners();
-  }
-
-  void logout() {
-    _loggedIn = false;
-    notifyListeners();
-  }
-  */
-
