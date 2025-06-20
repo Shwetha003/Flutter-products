@@ -1,5 +1,6 @@
 import 'package:example_app/services/secure_storage.dart';
 import 'package:flutter/foundation.dart';
+import '../services/login_persistence.dart';
 
 class AuthModel extends ChangeNotifier {
   //final FlutterSecureStorage _storage = const FlutterSecureStorage();  we are no longer directly talking to the storage, now we call from the secure storage file
@@ -49,6 +50,7 @@ class AuthModel extends ChangeNotifier {
   Future<void> logout() async {
     _loggedIn = false;
     _currentUserEmail = null;
+    await LoginPersistence.clearLoggedIn();
     notifyListeners();
   }
 }

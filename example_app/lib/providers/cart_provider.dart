@@ -22,16 +22,6 @@ class CartProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  /*void removeItem(Product product) {
-    if (_items.containsKey(product.id)) {
-      _items.update(product.id, (existing) => existing - 1);
-      if (_items[product.id]! <= 0) {
-        _items.remove(product.id);
-      }
-      notifyListeners();
-    }
-  }
-  */
 
   void clear() {
     _items.clear();
