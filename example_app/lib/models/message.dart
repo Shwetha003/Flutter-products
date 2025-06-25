@@ -7,16 +7,26 @@ enum Sender { user, echo }
 
 /// A single chat message entry.
 class Message {
-  final String text;
+  final String? text;
+  final String? imagePath;
   final Sender sender;
   final DateTime timestamp;
 
-  Message({required this.text, required this.sender, DateTime? timestamp})
-    : timestamp = timestamp ?? DateTime.now();
+  Message({
+    this.text,
+    this.imagePath,
+    required this.sender,
+    DateTime? timestamp,
+  }) : assert(
+         text != null || imagePath != null,
+         'Either text or imagePath must be provided',
+       ),
+       timestamp = timestamp ?? DateTime.now();
 
   /// Convert to a JSON‐compatible Map.
   Map<String, dynamic> toJson() => {
     'text': text,
+    'imagePath': imagePath,
     'sender': sender == Sender.user ? 'user' : 'echo',
     'timestamp': timestamp.toIso8601String(),
   };
@@ -24,7 +34,8 @@ class Message {
   /// Create from JSON Map.
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      text: json['text'] as String,
+      text: json['text'] as String?,
+      imagePath: json['imagePath'] as String?,
       sender: (json['sender'] as String) == 'user' ? Sender.user : Sender.echo,
       timestamp: DateTime.parse(json['timestamp'] as String),
     );
