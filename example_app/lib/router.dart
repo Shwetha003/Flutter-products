@@ -7,6 +7,7 @@ import 'screens/login_form_page.dart';
 import 'screens/register_page.dart';
 import 'screens/products_page.dart';
 import 'screens/cart_page.dart';
+import 'screens/support_screen.dart';
 
 GoRouter createRouter(AuthModel auth) {
   return GoRouter(
@@ -47,6 +48,12 @@ GoRouter createRouter(AuthModel auth) {
         path: '/cart',
         name: 'cart',
         builder: (context, state) => CartPage(),
+      ),
+
+      GoRoute(
+        path: '/support',
+        name: 'support',
+        builder: (context, state) => const SupportScreen(),
       ),
     ],
     redirect: (context, state) {

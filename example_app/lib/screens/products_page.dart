@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../models/product.dart';
@@ -87,6 +88,19 @@ class _ProductsPageState extends State<ProductsPage> {
                       child: SizedBox(
                         width: dropdownWidth,
                         child: _ProfileDropdown(),
+                      ),
+                    ),
+                    //New support menu item
+                    PopupMenuItem(
+                      child: ListTile(
+                        leading: const Icon(Icons.support_agent),
+                        title: const Text('Support'),
+                        onTap: () {
+                          //close the menu first
+                          Navigator.of(context).pop();
+                          //then navigate
+                          context.goNamed('support');
+                        },
                       ),
                     ),
                   ],
