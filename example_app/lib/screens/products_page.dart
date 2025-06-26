@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../models/product.dart';
 import 'cart_page.dart';
-//import 'package:go_router/go_router.dart';
 import '../models/auth_model.dart';
 import '../services/product_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -50,14 +50,14 @@ class _ProductsPageState extends State<ProductsPage> {
               ),
               if (cart.totalItems > 0)
                 Positioned(
-                  right: 8,
-                  top: 8,
+                  right: 8.w,
+                  top: 8.h,
                   child: CircleAvatar(
-                    radius: 10,
+                    radius: 10.r,
                     backgroundColor: Colors.red,
                     child: Text(
                       cart.totalItems.toString(),
-                      style: const TextStyle(fontSize: 12, color: Colors.white),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.white),
                     ),
                   ),
                 ),
@@ -72,8 +72,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 // 🔥 NEW: compute button position for dropdown
                 final renderBox = buttonContext.findRenderObject() as RenderBox;
                 final offset = renderBox.localToGlobal(Offset.zero);
-                final dropdownWidth = MediaQuery.of(context).size.width * 0.5;
-
+                final dropdownWidth = 500.w;
                 await showMenu(
                   context: buttonContext,
                   position: RelativeRect.fromLTRB(
@@ -84,7 +83,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   items: [
                     PopupMenuItem(
-                      // 🔥 NEW: fixed width dropdown
+                      //  fixed width dropdown
                       child: SizedBox(
                         width: dropdownWidth,
                         child: _ProfileDropdown(),
@@ -95,12 +94,13 @@ class _ProductsPageState extends State<ProductsPage> {
                       child: ListTile(
                         leading: const Icon(Icons.support_agent),
                         title: const Text('Support'),
-                        onTap: () {
-                          //close the menu first
-                          Navigator.of(context).pop();
-                          //then navigate
-                          context.goNamed('support');
-                        },
+                        onTap: () => context.push('/support'),
+                        // onTap: () {
+                        //   //close the menu first
+                        //   Navigator.of(context).pop();
+                        //   //then navigate
+                        //   context.push('/support');
+                        // },
                       ),
                     ),
                   ],
@@ -245,29 +245,29 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
           child: GestureDetector(
             onTap: _pickImage, // open camera
             child: CircleAvatar(
-              radius: 40,
+              radius: 100.r,
               backgroundImage: _imagePath != null
                   ? FileImage(File(_imagePath!))
                   : null,
               child: _imagePath == null
-                  ? const Icon(Icons.camera_alt, size: 30)
+                  ? Icon(Icons.camera_alt, size: 30.r)
                   : null,
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
 
         // 🔥 NEW: Location display section
-        Text('Location:', style: TextStyle(fontSize: 14)),
+        Text('Location:', style: TextStyle(fontSize: 35.sp)),
         if (_locating)
           Row(
-            children: const [
+            children: [
               SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                width: 16.w,
+                height: 16.h,
+                child: CircularProgressIndicator(strokeWidth: 2.w),
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text('Fetching…'),
             ],
           )
@@ -284,22 +284,25 @@ class _ProfileDropdownState extends State<_ProfileDropdown> {
             onPressed: _fetchLocation,
           ),
 
-        const Divider(height: 30),
+        Divider(height: 30.h),
 
-        const Text('Email:', style: TextStyle(fontSize: 14)),
+        Text('Email:', style: TextStyle(fontSize: 35.sp)),
         Text(_email ?? '', style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         TextField(
           controller: _nameCtrl,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             isDense: true,
-            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 15.h,
+              horizontal: 15.w,
+            ),
             border: OutlineInputBorder(),
             hintText: 'Your Name',
           ),
         ),
 
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         ElevatedButton(onPressed: _saveName, child: const Text('Save')),
         const Divider(),
         Center(

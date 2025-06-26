@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../models/message.dart';
 import '../services/support_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({Key? key}) : super(key: key);
@@ -143,15 +144,18 @@ class _SupportScreenState extends State<SupportScreen> {
                       Widget bubbleContent;
                       if (msg.imagePath != null) {
                         bubbleContent = ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(30.r),
                           child: Image.file(
                             File(msg.imagePath!),
-                            width: 200,
+                            width: 500.w,
                             fit: BoxFit.cover,
                           ),
                         );
                       } else {
-                        bubbleContent = Text(msg.text!);
+                        bubbleContent = Text(
+                          msg.text!,
+                          style: TextStyle(fontSize: 50.sp),
+                        );
                       }
 
                       return Align(
@@ -159,16 +163,16 @@ class _SupportScreenState extends State<SupportScreen> {
                             ? Alignment.centerRight
                             : Alignment.centerLeft,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 8,
+                          margin: EdgeInsets.symmetric(
+                            vertical: 4.h,
+                            horizontal: 8.w,
                           ),
-                          padding: const EdgeInsets.all(12),
+                          padding: EdgeInsets.all(12.r),
                           decoration: BoxDecoration(
                             color: isUser
                                 ? Colors.blue.shade100
                                 : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: bubbleContent,
                         ),
@@ -176,9 +180,9 @@ class _SupportScreenState extends State<SupportScreen> {
                     },
                   ),
           ),
-          const Divider(height: 1),
+          Divider(height: 1.h),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
             child: Row(
               children: [
                 IconButton(

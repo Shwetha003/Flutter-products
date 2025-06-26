@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../models/product.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -10,7 +12,17 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Cart')),
+      appBar: AppBar(
+        title: const Text('Cart'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.push('/support');
+            },
+            icon: Icon(Icons.support_agent),
+          ),
+        ],
+      ),
       body: cart.items.isEmpty
           ? const Center(child: Text('Your cart is empty'))
           : ListView(
@@ -32,7 +44,7 @@ class CartPage extends StatelessWidget {
       bottomNavigationBar: cart.items.isEmpty
           ? null
           : Padding(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.w),
               child: ElevatedButton(
                 onPressed: () {
                   cart.clear();

@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:go_router/go_router.dart';
-
 import 'models/auth_model.dart';
 import 'providers/cart_provider.dart';
 import 'router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthModel()),
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-      ],
-      child: const MyApp(),
+    ScreenUtilInit(
+      designSize: const Size(1080, 2340),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        final mq = MediaQuery.of(context).copyWith(
+          textScaler: TextScaler.linear(1.0),
+          boldText: false,
+          highContrast: false,
+        );
+        return MediaQuery(data: mq, child: child!);
+      },
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthModel()),
+          ChangeNotifierProvider(create: (_) => CartProvider()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }

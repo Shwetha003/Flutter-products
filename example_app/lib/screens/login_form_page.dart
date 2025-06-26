@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../models/auth_model.dart';
 import '../services/secure_storage.dart';
 import 'dart:async';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginFormPage extends StatefulWidget {
   const LoginFormPage({super.key});
@@ -50,7 +51,7 @@ class _LoginFormPageState extends State<LoginFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Password'),
@@ -62,7 +63,7 @@ class _LoginFormPageState extends State<LoginFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               if (_error != null)
                 Text(_error!, style: const TextStyle(color: Colors.red)),
               _loading
@@ -80,12 +81,15 @@ class _LoginFormPageState extends State<LoginFormPage> {
                         final password = _passwordController.text.trim();
 
                         // Attempt login via AuthModel
-                        final ok = await auth.loginWithEmail(email, password);
+                        final loggedIn = await auth.loginWithEmail(
+                          email,
+                          password,
+                        );
 
                         setState(() {
                           _loading = false;
                         });
-                        if (ok) {
+                        if (loggedIn) {
                           context.go('/products');
                         } else {
                           // Determine if email exists in storage
